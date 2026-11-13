@@ -1,7 +1,7 @@
 /* =====================================================================
    CONFIGURAÇÃO DA RODADA
    ---------------------------------------------------------------------
-   1) Lojas: o link de cada loja é  https://SEU-DOMINIO/?loja=<slug>
+   1) Lojas: o link de cada loja é  https://otica-mais-visao.github.io/clima-organizacional/<slug>
       (ou /<slug> com o rewrite do vercel.json). O link identifica a LOJA,
       nunca a pessoa.
    2) Supabase: preencher url + anonKey quando o projeto estiver criado.

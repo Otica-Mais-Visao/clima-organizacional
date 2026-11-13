@@ -19,13 +19,33 @@ vercel.json                links curtos por loja (/mv-tatuape) + noindex
 
 ## Como funciona
 
-1. Cada loja recebe um link próprio: `https://SEU-DOMINIO/mv-tatuape` (ou `?loja=mv-tatuape`). O link identifica a **loja**, nunca a pessoa.
+1. Cada loja recebe um link próprio: `https://otica-mais-visao.github.io/clima-organizacional/mv-tatuape` (ou `?loja=mv-tatuape`). O link identifica a **loja**, nunca a pessoa.
 2. O colaborador confirma a loja onde atua, informa área e tempo de casa (grupos amplos) e responde **20 perguntas de SIM/NÃO** em 6 blocos (Clima, Práticas, Gerente, Auditoria, Diretoria, Avaliação geral) + 3 abertas.
 3. Nos blocos de chefia há a opção **"Não tenho contato suficiente para responder"** (fica em branco).
 4. Quem marca área **Gestão** não responde o bloco do gerente (não se autoavalia).
 5. Na loja **Sé** (2 gestores) a pessoa indica o gestor direto.
 6. Textos abertos passam por anonimização automática no aparelho (nomes e lojas → `[nome]`, `[loja]`) antes de serem enviados.
 7. Sem Supabase configurado, o app roda em **modo demonstração** (nada é enviado).
+
+## Links por loja (rodada 2026-11)
+
+| Loja | Bandeira | Link |
+|---|---|---|
+| Tatuapé | Mais Visão | https://otica-mais-visao.github.io/clima-organizacional/mv-tatuape |
+| Santo Amaro | Mais Visão | https://otica-mais-visao.github.io/clima-organizacional/mv-santo-amaro |
+| Osasco | Mais Visão | https://otica-mais-visao.github.io/clima-organizacional/mv-osasco |
+| Sé | Mais Visão | https://otica-mais-visao.github.io/clima-organizacional/mv-se |
+| Taboão da Serra | Mais Visão | https://otica-mais-visao.github.io/clima-organizacional/mv-taboao |
+| Pimentas | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-pimentas |
+| São Bernardo | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-sao-bernardo |
+| Taboão | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-taboao |
+| Vila Luzita | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-vila-luzita |
+| Rua Direita | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-rua-direita |
+| Vila Matilde | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-vila-matilde |
+| São Luís | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-sao-luis |
+| Vila Sabrina | Golden Mix | https://otica-mais-visao.github.io/clima-organizacional/gm-vila-sabrina |
+
+Site publicado pelo GitHub Pages deste repositório (Settings → Pages → main / root).
 
 ## Colocar em produção (passo a passo)
 
