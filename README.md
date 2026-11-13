@@ -47,6 +47,14 @@ vercel.json                links curtos por loja (/mv-tatuape) + noindex
 
 Site publicado pelo GitHub Pages deste repositório (Settings → Pages → main / root).
 
+## Ver os resultados (diretoria)
+
+Painel com senha: https://otica-mais-visao.github.io/clima-organizacional/resultados/
+
+- Login com o e-mail/senha criados em Supabase → Authentication → Users (ex.: diretoria@oticamaisvisao.com.br). Só e-mails listados na policy "diretoria le" (supabase/ajustes-seguranca.sql) conseguem ler.
+- Mostra adesão por loja, % de SIM por pergunta (bandeiras e lojas com 4+ respostas), textos abertos e exporta CSV.
+- Alternativa técnica: Supabase → Table Editor → views adesao, resultado_por_loja, resultado_por_bandeira.
+
 ## Colocar em produção (passo a passo)
 
 ### 1. Supabase — já configurado (13/11/2026)

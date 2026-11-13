@@ -33,13 +33,14 @@ create policy "anon insere" on public.respostas
 -- Leitura só para usuários autenticados (diretoria no painel) ou service_role.
 drop policy if exists "diretoria le" on public.respostas;
 create policy "diretoria le" on public.respostas
-  for select to authenticated using (true);
+  for select to authenticated
+  using ( lower(auth.jwt() ->> 'email') in ('diretoria@oticamaisvisao.com.br') );
 
 revoke update, delete on public.respostas from anon, authenticated;
 
 -- 3) Visão agregada por loja/pergunta, já com corte de anonimato (>= 4 respostas).
 --    Lojas com menos de 4 respostas aparecem só no total da bandeira.
-create or replace view public.resultado_por_loja as
+create or replace view public.resultado_por_loja with (security_invoker = true) as
 with base as (
   select r.rodada, r.loja, r.loja_nome, r.bandeira, kv.key as pergunta, kv.value as resposta
   from public.respostas r, jsonb_each_text(r.respostas) kv
@@ -58,7 +59,7 @@ from base b join n using (rodada, loja)
 where n.respondentes >= 4
 group by 1,2,3,4,5,6;
 
-create or replace view public.resultado_por_bandeira as
+create or replace view public.resultado_por_bandeira with (security_invoker = true) as
 select r.rodada, r.bandeira, kv.key as pergunta,
        count(distinct r.id) as respondentes,
        count(*) filter (where kv.value='sim') as sim,
@@ -70,8 +71,9 @@ from public.respostas r, jsonb_each_text(r.respostas) kv
 group by 1,2,3;
 
 -- Adesão por loja (contagem, sem identificar)
-create or replace view public.adesao as
+create or replace view public.adesao with (security_invoker = true) as
 select rodada, bandeira, loja, loja_nome, count(*) as respondentes
 from public.respostas group by 1,2,3,4 order by 2,4;
 
--- As views herdam o RLS da tabela: anon não lê nada; diretoria autenticada lê.
+-- security_invoker: as views respeitam o RLS da tabela (anon não lê nada).
+-- Painel: /resultados (login com o e-mail autorizado acima).
