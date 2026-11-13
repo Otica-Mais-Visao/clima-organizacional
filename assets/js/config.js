@@ -13,6 +13,7 @@ window.SURVEY_CONFIG = {
   round: '2026-11',                 // identificador da rodada (vai no banco)
   deadline: '2026-11-28',           // só para exibir na tela final (AAAA-MM-DD)
   minResponses: 4,                  // corte de anonimato por loja (exibição no painel)
+  totalHeadcount: 89,               // total de funcionários (só para % de adesão no painel)
 
   supabase: {
     url: 'https://izyldybktecldhxcpjdv.supabase.co',
