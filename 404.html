@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Pesquisa de Clima</title>
+<meta name="robots" content="noindex">
+<script>
+  // Links curtos por loja (/mv-se, /gm-pimentas…) em hospedagens sem rewrite (ex.: GitHub Pages).
+  (function(){
+    var parts = location.pathname.split('/').filter(Boolean);
+    var slug = parts[parts.length-1] || '';
+    var base = location.pathname.replace(/[^/]*$/, '');
+    if (/^(mv|gm)-[a-z0-9-]+$/.test(slug)) location.replace(base + '?loja=' + slug);
+    else location.replace(base || '/');
+  })();
+</script></head>
+<body>Redirecionando…</body></html>
