@@ -37,11 +37,11 @@ Para repetir em outro projeto: SQL Editor → rode `supabase/schema.sql`; Projec
 > Nunca coloque a chave **secret** no app. Leitura das respostas só pelo painel do Supabase (Table Editor / SQL).
 
 ### 2. Publicar (hospedagem da empresa)
-Opção A — **GitHub Pages** (grátis, dentro da org, sem conta extra): Settings → Pages → Source: *Deploy from a branch* →  / . Endereço: . Os links curtos () funcionam pelo .
+Opção A — **GitHub Pages** (grátis, dentro da org, sem conta extra): Settings → Pages → Source: *Deploy from a branch* → `main` / `(root)`. Endereço: `https://otica-mais-visao.github.io/clima-organizacional/`. Os links curtos (`/mv-se`) funcionam pelo `404.html`.
 
-Opção B — **Vercel** na conta da empresa: Import Git Repository → este repo → Deploy (sem build). O  já cuida dos links curtos e do noindex.
+Opção B — **Vercel** na conta da empresa: Import Git Repository → este repo → Deploy (sem build). O `vercel.json` já cuida dos links curtos e do noindex.
 
-Qualquer alteração em  (ex.: perguntas, prazo) republica sozinha nas duas opções.
+Qualquer alteração em `main` (ex.: perguntas, prazo) republica sozinha nas duas opções.
 
 ## Resultados
 No Supabase → Table Editor: `respostas` (bruto), `resultado_por_loja` (só lojas com ≥ 4 respostas), `resultado_por_bandeira`, `adesao`. Códigos das perguntas (`c01`, `g02`…) estão em `assets/js/questions.js`.
