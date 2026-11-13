@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Resultados · Pesquisa de Clima · Mais Visão & Golden Mix</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0B0B0B;--ink:#1A1A1A;--gold:#FFBF00;--goldSoft:#FFF6D6;--gray:#737373;--line:#E9E7E1;--bg:#F7F6F2;--ok:#27BE8A;--bad:#E5484D;--r:14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Open Sans",system-ui,sans-serif;font-size:15px;line-height:1.5}
+h1,h2,h3{font-family:Montserrat,system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+.top{background:var(--black);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px}
+.top img{height:28px}.top .mv{font-family:Montserrat;font-weight:800;font-size:15px}.top .mv b{color:var(--gold)}
+.top .right{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px;color:#bbb}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 18px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin-bottom:18px}
+.login{max-width:420px;margin:60px auto}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px}
+input,select{width:100%;padding:11px 12px;border:1px solid #cfcdc6;border-radius:10px;font:inherit;background:#fff}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:11px 18px;font-weight:700}
+.btn{background:var(--black);color:#fff}.btn.gold{background:var(--gold);color:#111}.btn.ghost{background:#fff;border:1px solid #cfcdc6;color:#333;padding:7px 12px;font-weight:600;font-size:13px}
+.err{color:var(--bad);font-size:13px;margin-top:10px;min-height:1em}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.kpi b{display:block;font-family:Montserrat;font-size:30px;line-height:1.1}.kpi span{font-size:12px;color:var(--gray)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--gray);font-weight:600}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.ok{background:#DDF5EC;color:#15754f}.tag.low{background:#FDE3E4;color:#a3262b}.tag.mv{background:var(--goldSoft);color:#7a5a00}.tag.gm{background:#eee;color:#333}
+.bar{position:relative;height:22px;background:#eee;border-radius:6px;overflow:hidden;min-width:120px}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ok)}.bar.low i{background:#f0a640}.bar.bad i{background:var(--bad)}
+.bar span{position:absolute;right:8px;top:0;line-height:22px;font-size:12px;font-weight:700}
+.sec{font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding-top:16px}
+.q{color:#333}.q small{color:var(--gray);font-family:monospace;margin-right:6px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:16px}.tools > div{min-width:200px}
+.note{font-size:13px;color:var(--gray)}
+.txt{border-left:3px solid var(--gold);padding:6px 12px;margin:8px 0;background:#fffdf5;border-radius:0 8px 8px 0;white-space:pre-wrap}
+.hide{display:none}
+@media print{.top .right,.tools,.btn{display:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="../assets/img/logo-goldenmix-w.png" alt="Golden Mix">
+  <span class="mv">+ <b>MAIS VISÃO</b></span>
+  <div class="right"><span id="who"></span><button id="btnOut" class="btn ghost hide">Sair</button><button id="btnPrint" class="btn ghost hide" onclick="print()">Imprimir / PDF</button></div>
+</header>
+
+<main class="wrap">
+  <section id="login" class="card login">
+    <h2>Resultados da pesquisa de clima</h2>
+    <p class="note">Área restrita à diretoria. Use o e-mail e a senha de acesso fornecidos.</p>
+    <form id="formLogin">
+      <label>E-mail</label><input id="email" type="email" autocomplete="username" required>
+      <label>Senha</label><input id="pass" type="password" autocomplete="current-password" required>
+      <div class="err" id="loginErr"></div>
+      <button class="btn gold" style="width:100%;margin-top:8px" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <section id="panel" class="hide">
+    <div class="tools">
+      <div><label>Rodada</label><select id="selRodada"></select></div>
+      <div><label>Loja (detalhe)</label><select id="selLoja"><option value="">— só bandeiras —</option></select></div>
+      <button id="btnReload" class="btn ghost">Atualizar</button>
+      <button id="btnCsv" class="btn ghost">Baixar CSV (agregado)</button>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <h3>Adesão por loja</h3>
+      <p class="note">Uma loja só aparece com resultado próprio a partir de <b id="minN"></b> respostas. Abaixo disso, entra apenas no total da bandeira.</p>
+      <table id="tblAdesao"></table>
+    </div>
+
+    <div class="card">
+      <h3 id="ttlRes">Percentual de SIM por pergunta</h3>
+      <p class="note">Barra = % de SIM entre quem respondeu SIM ou NÃO (quem marcou "não tenho contato" não entra no cálculo). Verde ≥ 70%, laranja 50–69%, vermelho &lt; 50%.</p>
+      <table id="tblRes"></table>
+    </div>
+
+    <div class="card">
+      <h3>Respostas abertas</h3>
+      <p class="note">Textos anonimizados no celular do colaborador antes do envio (nomes de pessoas e lojas removidos). Agrupados por bandeira para preservar o anonimato.</p>
+      <div id="textos"></div>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/questions.js"></script>
+<script>
+(function(){
+  const C = window.SURVEY_CONFIG, SB = C.supabase, SECS = window.SURVEY_SECTIONS;
+  const KEY = 'clima:painel';
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  // ---- labels ----
+  const QL = {}, SEC_OF = {}, TEXTQ = {};
+  SECS.forEach(s => s.questions.forEach(q => {
+    QL[q.id] = q.text; SEC_OF[q.id] = s;
+    if (q.type === 'text') TEXTQ[q.id] = q.text;
+    if (q.followUpIf) { QL[q.followUpIf.id] = q.followUpIf.text; TEXTQ[q.followUpIf.id] = q.followUpIf.text; SEC_OF[q.followUpIf.id] = s; }
+  }));
+  const ORDER = SECS.flatMap(s => s.questions.filter(q => q.type === 'yn').map(q => q.id));
+  const STORE = {}; (C.stores || []).forEach(s => STORE[s.slug] = s);
+  const BRAND = { MV: 'Mais Visão', GM: 'Golden Mix' };
+
+  // ---- auth ----
+  let token = sessionStorage.getItem(KEY) || '';
+  async function login(email, pass) {
+    const r = await fetch(`${SB.url}/auth/v1/token?grant_type=password`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB.anonKey },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error_description || j.msg || 'E-mail ou senha inválidos.');
+    token = j.access_token; sessionStorage.setItem(KEY, token);
+    sessionStorage.setItem(KEY + ':who', email);
+  }
+  async function get(path) {
+    const r = await fetch(`${SB.url}/rest/v1/${path}`, { headers: { apikey: SB.anonKey, Authorization: `Bearer ${token}` } });
+    if (r.status === 401) { logout(); throw new Error('Sessão expirada. Entre novamente.'); }
+    if (!r.ok) throw new Error(`Erro ${r.status} ao ler ${path}`);
+    return r.json();
+  }
+  function logout() { token = ''; sessionStorage.removeItem(KEY); $('#panel').classList.add('hide'); $('#login').classList.remove('hide'); $('#btnOut').classList.add('hide'); $('#btnPrint').classList.add('hide'); $('#who').textContent = ''; }
+
+  // ---- data ----
+  let D = { adesao: [], band: [], loja: [], textos: [] };
+  async function load() {
+    const [adesao, band, loja, textos] = await Promise.all([
+      get('adesao?select=*'),
+      get('resultado_por_bandeira?select=*'),
+      get('resultado_por_loja?select=*'),
+      get('respostas?select=rodada,bandeira,loja,textos,criado_em&order=criado_em.desc')
+    ]);
+    D = { adesao, band, loja, textos };
+    const rodadas = [...new Set(adesao.map(a => a.rodada))].sort().reverse();
+    const sel = $('#selRodada'); const cur = sel.value || C.round;
+    sel.innerHTML = rodadas.length ? rodadas.map(r => `<option ${r === cur ? 'selected' : ''}>${esc(r)}</option>`).join('') : `<option>${esc(C.round)}</option>`;
+    render();
+  }
+
+  function render() {
+    const rod = $('#selRodada').value;
+    const minN = C.minResponses || 4; $('#minN').textContent = minN;
+    const ad = D.adesao.filter(a => a.rodada === rod);
+    const total = ad.reduce((a, b) => a + Number(b.respondentes), 0);
+    const byBrand = { MV: 0, GM: 0 }; ad.forEach(a => byBrand[a.bandeira] += Number(a.respondentes));
+    const lojasOk = ad.filter(a => a.respondentes >= minN).length;
+    const nFunc = (C.stores || []).reduce((a, s) => a + (s.headcount || 0), 0);
+    $('#kpis').innerHTML = [
+      [total, 'respostas recebidas' + (nFunc ? ` de ${nFunc}` : '')],
+      [byBrand.MV, 'Mais Visão'], [byBrand.GM, 'Golden Mix'],
+      [`${lojasOk}/${(C.stores || []).length}`, `lojas com ≥ ${minN} respostas`]
+    ].map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('');
+
+    // adesão (todas as lojas do config, inclusive as com 0)
+    const rows = (C.stores || []).map(s => {
+      const a = ad.find(x => x.loja === s.slug); const n = a ? Number(a.respondentes) : 0;
+      return { s, n };
+    }).sort((x, y) => x.s.brand.localeCompare(y.s.brand) || y.n - x.n);
+    $('#tblAdesao').innerHTML = '<tr><th>Loja</th><th>Bandeira</th><th>Respostas</th><th>Status</th></tr>' + rows.map(({ s, n }) =>
+      `<tr><td>${esc(s.name)}</td><td><span class="tag ${s.brand.toLowerCase()}">${BRAND[s.brand]}</span></td><td><b>${n}</b>${s.headcount ? ` <span class="note">/ ${s.headcount}</span>` : ''}</td><td>${n >= minN ? '<span class="tag ok">resultado individual</span>' : '<span class="tag low">só no total da bandeira</span>'}</td></tr>`).join('');
+
+    // store select (only those with >= minN)
+    const selL = $('#selLoja'); const curL = selL.value;
+    selL.innerHTML = '<option value="">— só bandeiras —</option>' + ad.filter(a => a.respondentes >= minN).map(a => `<option value="${esc(a.loja)}" ${a.loja === curL ? 'selected' : ''}>${esc(a.loja_nome)} · ${BRAND[a.bandeira]} (${a.respondentes})</option>`).join('');
+
+    // results table
+    const band = D.band.filter(b => b.rodada === rod);
+    const lojaSel = selL.value; const lj = lojaSel ? D.loja.filter(l => l.rodada === rod && l.loja === lojaSel) : [];
+    const cols = ['MV', 'GM']; if (lojaSel) cols.push('LOJA');
+    const pick = (id, col) => col === 'LOJA' ? lj.find(x => x.pergunta === id) : band.find(x => x.bandeira === col && x.pergunta === id);
+    $('#ttlRes').textContent = lojaSel ? `Percentual de SIM — bandeiras e loja ${STORE[lojaSel]?.name || lojaSel}` : 'Percentual de SIM por pergunta — por bandeira';
+    const bar = r => {
+      if (!r || r.pct_sim == null) return '<span class="note">—</span>';
+      const p = Number(r.pct_sim); const cls = p >= 70 ? '' : p >= 50 ? 'low' : 'bad';
+      return `<div class="bar ${cls}" title="SIM ${r.sim} · NÃO ${r.nao} · sem contato ${r.sem_contato}"><i style="width:${p}%"></i><span>${p.toFixed(0)}%</span></div><div class="note" style="font-size:11px">${r.sim} sim · ${r.nao} não${r.sem_contato ? ` · ${r.sem_contato} s/ contato` : ''}</div>`;
+    };
+    let html = `<tr><th style="width:50%">Pergunta</th>${cols.map(c => `<th>${c === 'LOJA' ? esc(STORE[lojaSel]?.name || lojaSel) : BRAND[c]}</th>`).join('')}</tr>`;
+    let lastSec = null;
+    ORDER.forEach(id => {
+      const s = SEC_OF[id];
+      if (s !== lastSec) { html += `<tr><td class="sec" colspan="${cols.length + 1}">${esc(s.num)} · ${esc(s.title)}</td></tr>`; lastSec = s; }
+      html += `<tr><td class="q"><small>${id}</small>${esc(QL[id])}</td>${cols.map(c => `<td>${bar(pick(id, c))}</td>`).join('')}</tr>`;
+    });
+    $('#tblRes').innerHTML = html;
+
+    // open texts grouped by brand
+    const tx = D.textos.filter(t => t.rodada === rod && t.textos && Object.keys(t.textos).length);
+    let th = '';
+    ['MV', 'GM'].forEach(b => {
+      const items = tx.filter(t => t.bandeira === b);
+      th += `<h3 style="margin:14px 0 6px"><span class="tag ${b.toLowerCase()}">${BRAND[b]}</span> <span class="note">${items.length} colaborador(es) escreveram algo</span></h3>`;
+      Object.keys(TEXTQ).forEach(qid => {
+        const list = items.map(t => t.textos[qid]).filter(v => v && String(v).trim());
+        if (!list.length) return;
+        th += `<p class="q" style="margin:10px 0 2px"><b>${esc(TEXTQ[qid])}</b> <span class="note">(${list.length})</span></p>` + list.map(v => `<div class="txt">${esc(v)}</div>`).join('');
+      });
+    });
+    $('#textos').innerHTML = th || '<p class="note">Nenhuma resposta aberta nesta rodada ainda.</p>';
+  }
+
+  function csv() {
+    const rod = $('#selRodada').value;
+    const rows = [['rodada', 'nivel', 'bandeira', 'loja', 'pergunta', 'texto', 'respondentes', 'sim', 'nao', 'sem_contato', 'pct_sim']];
+    D.band.filter(b => b.rodada === rod).forEach(b => rows.push([rod, 'bandeira', b.bandeira, '', b.pergunta, QL[b.pergunta] || '', b.respondentes, b.sim, b.nao, b.sem_contato, b.pct_sim]));
+    D.loja.filter(l => l.rodada === rod).forEach(l => rows.push([rod, 'loja', l.bandeira, l.loja_nome, l.pergunta, QL[l.pergunta] || '', l.respondentes, l.sim, l.nao, l.sem_contato, l.pct_sim]));
+    const out = '\ufeff' + rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([out], { type: 'text/csv;charset=utf-8' })); a.download = `clima-${rod}-agregado.csv`; a.click();
+  }
+
+  async function enter() {
+    $('#login').classList.add('hide'); $('#panel').classList.remove('hide');
+    $('#btnOut').classList.remove('hide'); $('#btnPrint').classList.remove('hide');
+    $('#who').textContent = sessionStorage.getItem(KEY + ':who') || '';
+    try { await load(); } catch (e) { alert(e.message); }
+  }
+
+  $('#formLogin').addEventListener('submit', async e => {
+    e.preventDefault(); $('#loginErr').textContent = '';
+    try { await login($('#email').value.trim(), $('#pass').value); await enter(); }
+    catch (err) { $('#loginErr').textContent = err.message; }
+  });
+  $('#btnOut').addEventListener('click', logout);
+  $('#btnReload').addEventListener('click', () => load().catch(e => alert(e.message)));
+  $('#btnCsv').addEventListener('click', csv);
+  $('#selRodada').addEventListener('change', render);
+  $('#selLoja').addEventListener('change', render);
+
+  if (!SB || !SB.url) { $('#loginErr').textContent = 'Supabase não configurado em assets/js/config.js.'; }
+  else if (token) enter();
+})();
+</script>
+</body>
+</html>
