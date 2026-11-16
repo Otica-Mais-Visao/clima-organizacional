@@ -27,7 +27,11 @@ vercel.json                links curtos por loja (/mv-tatuape) + noindex
 6. Textos abertos passam por anonimização automática no aparelho (nomes e lojas → `[nome]`, `[loja]`) antes de serem enviados.
 7. Sem Supabase configurado, o app roda em **modo demonstração** (nada é enviado).
 
-## Links por loja (rodada 2026-11)
+## Link único (recomendado)
+
+https://otica-mais-visao.github.io/clima-organizacional/ — a pessoa escolhe a loja na segunda tela. Cartaz: docs/cartaz-link-unico.pdf
+
+## Links por loja (opcional, já abrem com a loja preenchida)
 
 | Loja | Bandeira | Link |
 |---|---|---|
