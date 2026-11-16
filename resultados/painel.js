@@ -95,18 +95,23 @@
   }
   function applyFilters() {
     const rod = $('#selRodada').value;
-    R = ROWS.filter(r => r.rodada === rod && (scope === 'ALL' || r.bandeira === scope));
+    R = ROWS.filter(r => r.rodada === rod && inRange(r) && (scope === 'ALL' || r.bandeira === scope));
+  }
+  function inRange(r) {
+    const d = (r.criado_em || '').slice(0, 10), de = $('#dtDe').value, ate = $('#dtAte').value;
+    return (!de || d >= de) && (!ate || d <= ate);
   }
 
   /* ================= RENDER ================= */
   function render() {
     applyFilters();
-    const all = ROWS.filter(r => r.rodada === $('#selRodada').value);
+    const all = ROWS.filter(r => r.rodada === $('#selRodada').value && inRange(r));
+    const per = ($('#dtDe').value || $('#dtAte').value) ? ' · período ' + ($('#dtDe').value ? fmtDate($('#dtDe').value) : 'início') + ' a ' + ($('#dtAte').value ? fmtDate($('#dtAte').value) : 'hoje') : '';
     $('#tabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
     document.querySelectorAll('section[data-tab]').forEach(s => s.classList.toggle('hide', s.dataset.tab !== tab));
     $('#cntCmt').textContent = all.filter(r => r.textos && Object.values(r.textos).some(v => v && String(v).trim())).length;
     $('#cntLojas').textContent = Object.values(groupBy(all, 'loja')).filter(g => g.length >= MIN).length;
-    $('#heroSub').textContent = `Rodada ${$('#selRodada').value} · prazo ${fmtDate(C.deadline)} · ${all.length} resposta${all.length === 1 ? '' : 's'} até agora${scope !== 'ALL' ? ` · filtrando ${BRAND[scope]}` : ''}`;
+    $('#heroSub').textContent = `Rodada ${$('#selRodada').value} · prazo ${fmtDate(C.deadline)} · ${all.length} resposta${all.length === 1 ? '' : 's'} até agora${per}${scope !== 'ALL' ? ` · filtrando ${BRAND[scope]}` : ''}`;
     if (!all.length) { $('#content').innerHTML = ''; $('#emptyAll').classList.remove('hide'); return; }
     $('#emptyAll').classList.add('hide');
     ({ geral: renderGeral, lojas: renderLojas, lideranca: renderLideranca, comentarios: renderComentarios, adesao: renderAdesao })[tab](all);
@@ -351,7 +356,7 @@
 
   /* ---------- exportar ---------- */
   function csv() {
-    const rod = $('#selRodada').value; const all = ROWS.filter(r => r.rodada === rod);
+    const rod = $('#selRodada').value; const all = ROWS.filter(r => r.rodada === rod && inRange(r));
     const rows = [['rodada', 'nivel', 'bandeira', 'loja', 'bloco', 'pergunta', 'texto', 'respondentes', 'sim', 'nao', 'sem_contato', 'pct_sim', 'pct_favoravel']];
     const push = (nivel, band, loja, rs) => ALL_YN.forEach(q => { const s = stat(rs, q); rows.push([rod, nivel, band, loja, Q[q].sec.num, q, Q[q].text, s.asked, s.sim, s.nao, s.na, s.pct == null ? '' : s.pct.toFixed(1), s.fav == null ? '' : s.fav.toFixed(1)]); });
     push('grupo', '', '', all); ['MV', 'GM'].forEach(b => push('bandeira', b, '', all.filter(r => r.bandeira === b)));
@@ -389,6 +394,8 @@
   $('#btnCsv').addEventListener('click', csv);
   $('#btnPrint').addEventListener('click', () => print());
   $('#selRodada').addEventListener('change', render);
+  ['dtDe', 'dtAte'].forEach(id => $('#' + id).addEventListener('change', render));
+  $('#btnLimpar').addEventListener('click', () => { $('#dtDe').value = ''; $('#dtAte').value = ''; $('#selScope').value = 'ALL'; scope = 'ALL'; render(); });
   $('#selScope').addEventListener('change', e => { scope = e.target.value; storeSel = null; render(); });
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; tab = b.dataset.tab; history.replaceState(null, '', '#' + tab); render(); });
 

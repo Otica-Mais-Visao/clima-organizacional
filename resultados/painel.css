@@ -53,6 +53,7 @@ input:hover,select:hover{border-color:#cfcbc0}
 .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
 .tools label{margin:0 0 4px}
 .tools select{padding:9px 32px 9px 12px;font-size:14px;min-width:150px}
+.tools input[type=date]{padding:8px 10px;font-size:14px;width:150px}
 .tools .btn.ghost.light{padding:9px 13px}
 
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin:6px 0 22px;overflow-x:auto;scrollbar-width:none}
